@@ -1,6 +1,6 @@
 import '../App.css';
 import React, { Suspense, useCallback, useMemo, useRef } from 'react';
-import { Canvas, extend, useFrame, useLoader, useThree } from 'react-three-fiber';
+import { Canvas, extend, useFrame, useLoader, useThree } from '@react-three/fiber';
 import typewriter from '../assets/notMyType.otf';
 import * as THREE from 'three';
 import circleImg from '../assets/circle.png';
@@ -13,113 +13,105 @@ extend({ OrbitControls })
 
 
 function CameraControls() {
-    const {
-        camera,
-        gl: { domElement }
-    } = useThree();
+  const {
+    camera,
+    gl: { domElement }
+  } = useThree();
 
-    const controlsRef = useRef();
-    useFrame(() => controlsRef.current.update())
+  const controlsRef = useRef();
+  useFrame(() => controlsRef.current.update())
 
-    return (
-        <orbitControls
-            ref={controlsRef}
-            args={[camera, domElement]}
-            autoRotate
-            autoRotateSpeed={-0.2}
-        />
-    )
+  return (
+    <orbitControls
+      ref={controlsRef}
+      args={[camera, domElement]}
+      autoRotate
+      autoRotateSpeed={-0.2}
+    />
+  )
 }
 
 function Points() {
-    const imgTex = useLoader(THREE.TextureLoader, circleImg);
-    const bufferRef = useRef();
+  const imgTex = useLoader(THREE.TextureLoader, circleImg);
+  const bufferRef = useRef();
+  const t = useRef(0);
 
-    let t = 0;
-    let f = 0.002;
-    let a = 4;
+  const count = 100;
+  const sep = 3;
 
-    const graph = useCallback((x, z) => {
-        return Math.sin(f * (x ** 2 + z ** 2 + t)) * a;
-    }, [t, f, a])
+  const positions = useMemo(() => {
+    const pos = [];
 
+    for (let xi = 0; xi < count; xi++) {
+      for (let zi = 0; zi < count; zi++) {
+        const x = sep * (xi - count / 2);
+        const z = sep * (zi - count / 2);
+        const y = Math.sin(0.002 * (x ** 2 + z ** 2)) * 4;
+        pos.push(x, y, z);
+      }
+    }
 
-    //count = number of points along one axis
-    const count = 100
+    return new Float32Array(pos);
+  }, []);
 
-    //sep = seperation or distance between each point
-    const sep = 3
-    let positions = useMemo(() => {
-        let positions = []
+  useFrame(() => {
+    if (!bufferRef.current) return;
+    t.current += 15;
 
-        for (let xi = 0; xi < count; xi++) {
-            for (let zi = 0; zi < count; zi++) {
-                let x = sep * (xi - count / 2);
-                let z = sep * (zi - count / 2);
-                let y = graph(x, z);
-                positions.push(x, y, z);
-            }
-        }
+    const positions = bufferRef.current.array;
+    let i = 0;
 
-        return new Float32Array(positions);
-    }, [count, sep, graph])
+    for (let xi = 0; xi < count; xi++) {
+      for (let zi = 0; zi < count; zi++) {
+        const x = sep * (xi - count / 2);
+        const z = sep * (zi - count / 2);
+        const y = Math.sin(0.002 * (x ** 2 + z ** 2 + t.current)) * 4;
 
-    useFrame(() => {
-        t += 15
-        const positions = bufferRef.current.array;
+        positions[i + 1] = y; // only Y changes
+        i += 3;
+      }
+    }
 
-        let i = 0;
-        for (let xi = 0; xi < count; xi++) {
-            for (let zi = 0; zi < count; zi++) {
-                let x = sep * (xi - count / 2);
-                let z = sep * (zi - count / 2);
+    bufferRef.current.needsUpdate = true;
+  });
 
-                positions[i + 1] = graph(x, z);
-                i += 3;
-            }
-        }
+  return (
+    <points>
+      <bufferGeometry>
+        <bufferAttribute
+          ref={bufferRef}
+          attach="attributes-position"
+          array={positions}
+          count={positions.length / 3}
+          itemSize={3}
+        />
+      </bufferGeometry>
 
-        bufferRef.current.needsUpdate = true;
-    })
-
-    return (
-        <points>
-            <bufferGeometry attach="geometry">
-                <bufferAttribute
-                    ref={bufferRef}
-                    attachObject={['attributes', 'position']}
-                    count={positions.length / 3}
-                    itemSize={3}
-                    array={positions}
-                />
-            </bufferGeometry>
-
-            <pointsMaterial
-                attach="material"
-                map={imgTex}
-                color={0x00AAFF}
-                size={0.5}
-                sizeAttenuation
-                transparent={false}
-                alphaTest={0.5}
-                opacity={1.0}
-            />
-        </points>
-    )
+      <pointsMaterial
+        map={imgTex}
+        color={0x00AAFF}
+        size={0.5}
+        sizeAttenuation
+        transparent={false}
+        alphaTest={0.5}
+        opacity={1.0}
+      />
+    </points>
+  );
 }
 
 function AnimationCanvas() {
-    return (
-        <Canvas
-            colorManagement={false}
-            camera={{ position: [100, 10, 0], fov: 75 }}
-        >
-            <Suspense fallback={null}>
-                <Points />
-            </Suspense>
-            <CameraControls />
-        </Canvas>
-    );
+  return (
+    <Canvas
+      legacy
+      camera={{ position: [100, 10, 0], fov: 75 }}
+    >
+      <Suspense fallback={null}>
+        <Points />
+      </Suspense>
+      <CameraControls />
+    </Canvas>
+  );
 }
 
 const TitleBox = styled.div`
@@ -152,7 +144,7 @@ const Body = styled.div`
     row-gap: 0rem;
     width: 40%;
     top: 10%;
-    left: 38.5%;
+    left: 25%;
     z-index: 995;
     position: fixed;
     height: 100%;
@@ -214,38 +206,42 @@ const Card = styled.div`
 
 
 const ProductGrid = () => {
-    return (
-        <>
-            <Body>
-                <Fade>
-                    {fadeImages.map((fadeImage, index) => (
-                        <div className="each-fade" key={index}>
-                            <Card>
-                                <img src={fadeImage.url} />
-                            </Card>
-                            <h2>{fadeImage.caption}</h2>
-                        </div>
-                    ))}
-                </Fade>
-            </Body>
-        </>
-    )
+  return (
+    <>
+      <Body>
+        <Fade>
+          {fadeImages.map((fadeImage, index) => (
+            <div className="each-fade" key={index}>
+              <Card >
+                <img src={fadeImage.url} />
+              </Card>
+              <h2>{fadeImage.caption}</h2>
+            </div>
+          ))}
+        </Fade>
+      </Body>
+    </>
+  )
 }
 
 
 
 
 const Ts2 = () => {
-    return (
-        <>
-            <TitleBox><Title>#2</Title></TitleBox>
-            <div className="anim">
-                <Suspense fallback={<div>Loading...</div>}>
-                    <AnimationCanvas />
-                </Suspense>
-            </div>
-        </>
-    );
+  return (
+    <>
+      <div className="bg-red-500">
+        Navbar
+      </div>
+      <TitleBox><Title>Max Tattoo Artist</Title></TitleBox>
+      <div className="anim">
+        <Suspense fallback={<div>Loading...</div>}>
+          <AnimationCanvas />
+          <ProductGrid />
+        </Suspense>
+      </div>
+    </>
+  );
 };
 
 export default Ts2;

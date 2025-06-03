@@ -1,42 +1,12 @@
+import jujutsu1 from '../components/images/jujutsu1.png';
+import jujutsu2 from '../components/images/jujutsu2.png';
+import tanjiro from '../components/images/tanjiro.png';
+import zenitsu from '../components/images/zenitsu.png';
+
 export const fadeImages = [
-    {
-        url: require('../components/images/jujutsu1.png'),
-    },
-    {
-        url: require("../components/images/jujutsu2.png"),
-    },
-    {
-        url: require("../components/images/tanjiro.png"),
-    },
-    {
-        url: require("../components/images/zenitsu.png"),
-    },
-    // {
-    //     image: "/images/react-one.jpg",
-    //     title: 'Merch',
-    //     description: "Test",
-    //     id: 4
-    // },
-    // {
-    //     image: "/images/react-one.jpg",
-    //     title: 'Merch',
-    //     description: "Test",
-    //     id: 5
-    // },
-    // {
-    //     image: "/images/react-one.jpg",
-    //     title: 'Merch',
-    //     description: "Test",
-    //     id: 6
-    // },
-    // {
-    //     image: "/images/react-one.jpg",
-    //     title: 'Merch',
-    //     description: "Test",
-    //     id: 7
-    // },
+  { url: jujutsu1 },
+  { url: jujutsu2 },
+  { url: tanjiro },
+  { url: zenitsu },
 ];
 
-// export default {
-//     Merch
-// }

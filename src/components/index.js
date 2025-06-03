@@ -1,5 +1,0 @@
-export { default as Navbar } from './Navbar'
-export { default as Homepage } from './Homepage'
-export { default as Ts1 } from './Ts1'
-export { default as Ts2 } from './Ts2'
-export { default as Ts3 } from './Ts3'
