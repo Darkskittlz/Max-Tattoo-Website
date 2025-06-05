@@ -1,7 +1,7 @@
 import '../App.css';
 import "react-image-gallery/styles/css/image-gallery.css";
 import GlobalStyle from './../Styles/GlobalStyles.js';
-import React, { Suspense, useCallback, useMemo, useRef, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, extend, useFrame, useLoader, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import circleImg from '../assets/circle.png';
@@ -311,9 +311,23 @@ const ContactFormContainer = styled.div`
   margin-top: 25px;
 `
 
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return isMobile;
+};
+
 
 
 const ProductGrid = () => {
+  const isMobile = useIsMobile();
+  const [currentIndex, setCurrentIndex] = useState(0);
   const galleryImages = fadeImages.map(image => ({
     original: image.url,
     thumbnail: image.url, // use same image for thumbnail, or adjust if you have separate ones
@@ -325,7 +339,9 @@ const ProductGrid = () => {
         items={galleryImages}
         showPlayButton={false}
         showFullscreenButton={true}
-        thumbnailPosition="left"
+        thumbnailPosition='left'
+        showThumbnails={!isMobile} //hide thumbnails on mobile
+        // showNav={!isMobile} // Hide arrow keys on mobile
       />
     </div>
   );

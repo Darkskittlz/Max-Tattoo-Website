@@ -25,12 +25,19 @@ const GlobalStyle = createGlobalStyle`
   .image-gallery-slide {
     height: 550px;
     width: 550px;
+
+    @media (max-width: 768px) {
+      width: 600px;
+      height: 510px;
+    }
   }
+
 
   .image-gallery-thumbnail .image-gallery-thumbnail-image {
     cursor: pointer;
     height: 80px;
   }
+
 
   .image-gallery-thumbnail.active {
     border: 5px solid #337ab7;
