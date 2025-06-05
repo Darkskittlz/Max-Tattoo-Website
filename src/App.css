@@ -253,3 +253,18 @@ a:hover {
 }
 
 
+.modalButton {
+  padding: 15px;
+  font-size: 20px;
+  /* background-color: blue; */
+  /* color: white; */
+  border-radius: 10px;
+  margin-bottom: 10px;
+  margin-top: 2px;
+}
+
+div.chakra-select__icon-wrapper.css-162mkon {
+  display: none;
+}
+
+

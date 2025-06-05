@@ -1,7 +1,7 @@
 import '../App.css';
 import "react-image-gallery/styles/css/image-gallery.css";
 import GlobalStyle from './../Styles/GlobalStyles.js';
-import React, { Suspense, useCallback, useMemo, useRef } from 'react';
+import React, { Suspense, useCallback, useMemo, useRef, useState } from 'react';
 import { Canvas, extend, useFrame, useLoader, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import circleImg from '../assets/circle.png';
@@ -10,9 +10,11 @@ import styled, { keyframes } from 'styled-components';
 import { Fade } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { AimOutlined, HomeOutlined, LinkOutlined } from '@ant-design/icons';
+import { AimOutlined, HomeOutlined, LinkOutlined, MenuOutlined } from '@ant-design/icons';
 import ImageGallery from 'react-image-gallery';
 import typewriter from '../assets/notMyType.otf';
+import ContactForm from './ContactForm.jsx';
+import ErrorBoundary from 'antd/es/alert/ErrorBoundary';
 extend({ OrbitControls })
 
 
@@ -130,7 +132,7 @@ const NavbarContainer = styled.div`
   width: 100%;
   padding-top: 10px;
   padding-bottom: 10px;
-  border-bottom: 3px solid white;
+  border-bottom: 3px solid grey;
   text-transform: uppercase;
   display: flex;
   justify-content: center;
@@ -140,14 +142,59 @@ const NavbarContainer = styled.div`
   gap: 140px;
 
   h1 {
+    cursor: pointer;
     color: white;
     font-size: 40px;
     font-family: sans;
+
+    @media (max-width: 768px) {
+      font-size: 30px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
   }
 `
 
+const MenuItems = styled.div`
+  display: flex;
+  gap: 140px;
+
+  @media (max-width: 768px) {
+    display: ${({ open }) => (open ? 'flex' : 'none')};
+    flex-direction: column;
+    z-index: 999;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 20px 0;
+    gap: 20px;
+    align-items: center;
+  }
+`;
+
+const MenuIcon = styled(MenuOutlined)`
+  display: none;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+`;
+
 const ProductGridContainer = styled.div`
   display: flex;
+  backdrop-filter: blur(2px);
+  padding: 5px;
+  border-radius: 10px;
   justify-content: center;
   margin-top: 20px;
   width: 100%;
@@ -163,16 +210,28 @@ const BodyContainer = styled.div`
   position: absolute;
   display: flex;
   z-index: 998;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    display: flex;
+    z-index: 1;
+    flex-direction: column;
+    left: 0;
+  }
 `
 
 const InnerBodyContainer = styled.div`
   height: 88vh;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 15px;
 `
 
 const TitleInfoContainer = styled.div`
   padding: 20px;
-  width: 100%;
+  width: 85%;
   flex-direction: column;
   border: 2px solid white;
   border-radius: 10px;
@@ -247,6 +306,11 @@ const InfoBox = styled.div`
   }
 `
 
+const ContactFormContainer = styled.div`
+  display: flex;
+  margin-top: 25px;
+`
+
 
 
 const ProductGrid = () => {
@@ -271,24 +335,41 @@ const ProductGrid = () => {
 
 
 const Ts2 = () => {
+  const infoRef = useRef(null);
+  const photosRef = useRef(null);
+  const contactRef = useRef(null);
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  const scrollToSection = (ref) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+
   return (
     <>
       <GlobalStyle />
       <NavbarContainer>
-        <h1>Info</h1>
-        <h1>Photos</h1>
-        <h1>Contact</h1>
+        <MenuIcon onClick={() => {
+          setMenuOpen(!menuOpen)
+          console.log("Menu Click");
+        }}
+        />
+        <MenuItems open={menuOpen}>
+          <h1 onClick={() => { scrollToSection(infoRef); setMenuOpen(false); }}> Info</h1>
+          <h1 onClick={() => { scrollToSection(photosRef); setMenuOpen(false); }}> Photos</h1>
+          <h1 onClick={() => { scrollToSection(contactRef); setMenuOpen(false); }}> Contact</h1>
+        </MenuItems>
       </NavbarContainer>
       <BodyContainer>
         <InnerBodyContainer>
-          <TitleInfoContainer>
+          <TitleInfoContainer ref={infoRef}>
             <TitleBox>
               <Title>Max <br /> Tattoo Artist</Title>
             </TitleBox>
             <InfoContainer>
               <InfoBox>
-                <h1><HomeOutlined /> Current Residency: Certified Tattoo Studios</h1>
-                <h1><AimOutlined />Address: 8025 W Colfax Ave, Lakewood, CO 80214</h1>
+                <h1><HomeOutlined /> Residency: Certified Tattoo Studios</h1>
+                <h1><AimOutlined />Address: 8025 W Colfax Ave, Lakewood, CO</h1>
                 <a href="https://certifiedtattoo.com" target="_blank" rel="noopener noreferrer">
                   <LinkOutlined /> Certified Tattoo Website
                 </a>
@@ -296,9 +377,13 @@ const Ts2 = () => {
             </InfoContainer>
           </TitleInfoContainer>
 
-          <ProductGridContainer>
+          <ProductGridContainer ref={photosRef}>
             <ProductGrid />
           </ProductGridContainer>
+
+          <ContactFormContainer ref={contactRef}>
+            <ContactForm />
+          </ContactFormContainer>
 
         </InnerBodyContainer>
       </BodyContainer>
