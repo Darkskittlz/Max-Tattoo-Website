@@ -28,7 +28,7 @@ const GlobalStyle = createGlobalStyle`
 
     @media (max-width: 768px) {
       width: 600px;
-      height: 510px;
+      height: 400px;
     }
   }
 

@@ -341,7 +341,7 @@ const ProductGrid = () => {
         showFullscreenButton={true}
         thumbnailPosition='left'
         showThumbnails={!isMobile} //hide thumbnails on mobile
-        // showNav={!isMobile} // Hide arrow keys on mobile
+      // showNav={!isMobile} // Hide arrow keys on mobile
       />
     </div>
   );
