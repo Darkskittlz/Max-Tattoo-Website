@@ -11,6 +11,7 @@
     "@emotion/styled": "^11.14.0",
     "@react-three/fiber": "^8.13.6",
     "@reduxjs/toolkit": "^1.9.7",
+    "@sendgrid/mail": "^8.1.5",
     "antd": "^5.25.3",
     "axios": "^1.9.0",
     "date-and-time": "^3.6.0",
