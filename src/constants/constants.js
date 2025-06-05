@@ -2,7 +2,7 @@ import jujutsu1 from '../components/images/jujutsu1.png';
 import jujutsu2 from '../components/images/jujutsu2.png';
 import tanjiro from '../components/images/tanjiro.png';
 import zenitsu from '../components/images/zenitsu.png';
-import tattoo1 from '../assets/Tattoos/tattoo (1).png'
+import tattoo1 from '../assets/Tattoos/tattoo (45).jpg'
 import tattoo2 from '../assets/Tattoos/tattoo (2).png'
 import tattoo3 from '../assets/Tattoos/tattoo (3).png'
 import tattoo4 from '../assets/Tattoos/tattoo (4).png'
@@ -46,6 +46,7 @@ import tattoo41 from '../assets/Tattoos/tattoo (41).png'
 import tattoo42 from '../assets/Tattoos/tattoo (42).png'
 import tattoo43 from '../assets/Tattoos/tattoo (43).png'
 import tattoo44 from '../assets/Tattoos/tattoo (44).png'
+import tattoo45 from '../assets/Tattoos/tattoo (1).png'
 
 export const fadeImages = [
   { url: tattoo1 },
@@ -92,5 +93,19 @@ export const fadeImages = [
   { url: tattoo42 },
   { url: tattoo43 },
   { url: tattoo44 },
+  { url: tattoo45 },
 ];
+
+
+export const emotions = [
+  { id: '1', title: 'Happy 🙂', },
+  { id: '2', title: 'Sad 😞 ', },
+  { id: '3', title: 'Inspired 😅 ', },
+  { id: '4', title: 'Tired 😫 ', },
+  { id: '5', title: 'Hungry 🥝 ', },
+  { id: '6', title: 'XTRA HAPPY! 🤟🙂🤟', },
+  { id: '7', title: 'Determined 👓 💻 👓', },
+  { id: '8', title: 'Strong 🏰', },
+  { id: '9', title: 'Spiritual 🕉 ', }
+]
 

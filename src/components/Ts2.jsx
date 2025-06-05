@@ -140,6 +140,7 @@ const NavbarContainer = styled.div`
   gap: 140px;
 
   h1 {
+    color: white;
     font-size: 40px;
     font-family: sans;
   }
@@ -224,22 +225,25 @@ const InfoBox = styled.div`
  
   h1 {
     font-size: 20px;
+    color: white;
     font-weight: 300;
     font-family: {typewriter};
   }
 
   h2 {
     font-size: 19px;
+    color: white;
     font-weight: 300;
   }
 
   href {
     font-family: typewriter;
+    color: white;
     cursor: pointer;
   }
 
   href:hover {
-    color: blue;
+    color: white;
   }
 `
 
@@ -291,9 +295,11 @@ const Ts2 = () => {
               </InfoBox>
             </InfoContainer>
           </TitleInfoContainer>
+
           <ProductGridContainer>
             <ProductGrid />
           </ProductGridContainer>
+
         </InnerBodyContainer>
       </BodyContainer>
       <div className="anim">
