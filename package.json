@@ -13,7 +13,7 @@
     "@reduxjs/toolkit": "^1.9.7",
     "@sendgrid/mail": "^8.1.5",
     "antd": "^5.25.3",
-    "axios": "^1.9.0",
+    "axios": "^1.12.2",
     "date-and-time": "^3.6.0",
     "dotenv": "^16.5.0",
     "framer-motion": "^12.16.0",
