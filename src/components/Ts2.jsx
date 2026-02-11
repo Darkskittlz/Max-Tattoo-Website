@@ -62,7 +62,7 @@ function Points() {
 
   useFrame(() => {
     if (!bufferRef.current) return;
-    t.current += 15;
+    t.current += 8;
 
     const positions = bufferRef.current.array;
     let i = 0;
@@ -71,7 +71,7 @@ function Points() {
       for (let zi = 0; zi < count; zi++) {
         const x = sep * (xi - count / 2);
         const z = sep * (zi - count / 2);
-        const y = Math.sin(0.002 * (x ** 2 + z ** 2 + t.current)) * 4;
+        const y = Math.sin(0.001 * (x ** 2 + z ** 2 + t.current)) * 4;
 
         positions[i + 1] = y; // only Y changes
         i += 3;
@@ -201,9 +201,8 @@ const ProductGridContainer = styled.div`
 `
 
 const BodyContainer = styled.div`
-  width: 50%;
-  padding: 10px;
-  left: 25%;
+  width: 100%;
+  margin: auto;
   justify-content: center;
   margin-top: 90px;
   flex-direction: column;
@@ -231,16 +230,18 @@ const InnerBodyContainer = styled.div`
 
 const TitleInfoContainer = styled.div`
   padding: 20px;
-  width: 85%;
+  height: 60vh;
+  width: 55%;
+  align-items: center;
   flex-direction: column;
   border: 2px solid white;
   border-radius: 10px;
   animation-name: ${Animation};
   animation-duration: 4s;
   animation-iteration-count: infinite;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(10px);
   display: flex;
-  justify-content: center;
+  gap: 40px;
   flex-direction: column;
 `
 
@@ -364,42 +365,39 @@ const Ts2 = () => {
   return (
     <>
       <GlobalStyle />
-      <NavbarContainer>
-        <MenuIcon onClick={() => {
-          setMenuOpen(!menuOpen)
-          console.log("Menu Click");
-        }}
-        />
-        <MenuItems open={menuOpen}>
-          <h1 onClick={() => { scrollToSection(infoRef); setMenuOpen(false); }}> Info</h1>
-          <h1 onClick={() => { scrollToSection(photosRef); setMenuOpen(false); }}> Photos</h1>
-          <h1 onClick={() => { scrollToSection(contactRef); setMenuOpen(false); }}> Contact</h1>
-        </MenuItems>
-      </NavbarContainer>
+      {/* <NavbarContainer> */}
+      {/*   <MenuIcon onClick={() => { */}
+      {/*     setMenuOpen(!menuOpen) */}
+      {/*     console.log("Menu Click"); */}
+      {/*   }} */}
+      {/*   /> */}
+      {/*   <MenuItems open={menuOpen}> */}
+      {/*     <h1 onClick={() => { scrollToSection(infoRef); setMenuOpen(false); }}> Info</h1> */}
+      {/*     <h1 onClick={() => { scrollToSection(photosRef); setMenuOpen(false); }}> Photos</h1> */}
+      {/*     <h1 onClick={() => { scrollToSection(contactRef); setMenuOpen(false); }}> Contact</h1> */}
+      {/*   </MenuItems> */}
+      {/* </NavbarContainer> */}
       <BodyContainer>
         <InnerBodyContainer>
           <TitleInfoContainer ref={infoRef}>
             <TitleBox>
-              <Title>Max <br /> Tattoo Artist</Title>
+              <Title>Frontend Code Challenge</Title>
             </TitleBox>
-            <InfoContainer>
-              <InfoBox>
-                <h1><HomeOutlined /> Residency: Certified Tattoo Studios</h1>
-                <h1><AimOutlined />Address: 8025 W Colfax Ave, Lakewood, CO</h1>
-                <a href="https://certifiedtattoo.com" target="_blank" rel="noopener noreferrer">
-                  <LinkOutlined /> Certified Tattoo Website
-                </a>
-              </InfoBox>
-            </InfoContainer>
+            <iframe
+              src="https://drive.google.com/file/d/12jB1Ca3XnI3tQGN_1jr3gGvtn00-aHRD/preview"
+              width="70%"
+              height="75%"
+            ></iframe>
+
           </TitleInfoContainer>
 
-          <ProductGridContainer ref={photosRef}>
-            <ProductGrid />
-          </ProductGridContainer>
+          {/* <ProductGridContainer ref={photosRef}> */}
+          {/*   <ProductGrid /> */}
+          {/* </ProductGridContainer> */}
 
-          <ContactFormContainer ref={contactRef}>
-            <ContactForm />
-          </ContactFormContainer>
+          {/* <ContactFormContainer ref={contactRef}> */}
+          {/*   <ContactForm /> */}
+          {/* </ContactFormContainer> */}
 
         </InnerBodyContainer>
       </BodyContainer>
